@@ -7,6 +7,14 @@ describe('Notification test', () => {
   });
 
   it('Notification is instantiable', () => {
-    expect(new Notification()).toBeInstanceOf(Notification);
+    const config = {
+      aliAppId: 'testAppId',
+      aliSecret: 'testSecret',
+      senderName: '灵鹞软件',
+      senderEmail: 'test@dozto.com',
+      emailTitle: 'Notify Mail',
+      aliMailTimeout: 3000
+    };
+    expect(new Notification(config)).toBeInstanceOf(Notification);
   });
 });
