@@ -14,8 +14,9 @@ class Config {
 
 class SendMailConfig {
   senderAddress: string;
-  senderName: string[];
+  senderName: string;
   toAddresses: String[];
+  title: string;
   content: string;
 }
 
@@ -38,13 +39,15 @@ export default class Notification {
   async sendMail(options: SendMailConfig): Promise<void> {
     const sendOptions: any = {};
 
-    Object.assign(sendOptions, options);
-
     if (containHtml(options.content)) {
       sendOptions.html = options.content;
     } else {
       sendOptions.text = options.content;
     }
+
+    delete options.content;
+
+    Object.assign(sendOptions, options);
 
     await this.aliMail.sendMail(sendOptions);
     return;

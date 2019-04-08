@@ -3,33 +3,17 @@
 import * as crypto from 'crypto';
 
 import axios, { AxiosInstance } from 'axios';
-import { Validator, Validate } from 'typescript-param-validator';
-import { IsEmail, IsNotEmpty, ValidateIf, MaxLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, ValidateIf, MaxLength } from 'class-validator';
 import * as qs from 'querystring';
 import * as md5 from 'md5';
-import { PardError } from './utils';
+import { PardError, joiValidate } from './utils';
 
-export class MailOptions {
-  @IsEmail()
+interface MailOptions {
   senderAddress: string;
-
-  @MaxLength(15)
   senderName: string;
-
-  @IsNotEmpty()
-  @IsEmail(undefined, {
-    each: true
-  })
-  @MaxLength(100)
   toAddresses: string[];
   title: string;
-
-  @ValidateIf(option => !option.html)
-  @IsNotEmpty()
   text?: string;
-
-  @ValidateIf(option => !option.text)
-  @IsNotEmpty()
   html?: string;
 }
 
@@ -114,8 +98,8 @@ export default class AliMail {
     return newArgs;
   };
 
-  @Validate()
-  async sendMail(@Validator() options: MailOptions): Promise<SendMailResponse> {
+  async sendMail(options: MailOptions): Promise<SendMailResponse> {
+    joiValidate('SEND_MAIL_OPTIONS', options);
     try {
       let mailOption: any = {
         Action: 'SingleSendMail',

@@ -1,6 +1,6 @@
 'use strict';
 import AliMail from '../src/ali-mail';
-import nock = require('nock');
+import * as nock from 'nock';
 
 describe('Ali Mail test', () => {
   const options = {
@@ -16,7 +16,13 @@ describe('Ali Mail test', () => {
     expect(new AliMail('testAppId', 'testSecret', 40000)).toBeInstanceOf(AliMail);
   });
 
-  it('Should can send email', async () => {
+  it('Should can do encode correct', () => {
+    const result = aliMail.fixAliEncode("test(!*'str)");
+
+    expect(result).toEqual('test%2528%2521%252A%2527str%2529');
+  });
+
+  it('Should can send email with text', async () => {
     nock('https://dm.aliyuncs.com/')
       .filteringPath(() => '/')
       .get('/')
@@ -33,6 +39,44 @@ describe('Ali Mail test', () => {
 
     expect(result.EnvId).toEqual('58796843655');
     expect(result.RequestId).toEqual('E3883FB7-737F-4199-9C08-61CA586004BA');
+  });
+
+  it('Should can send email with html', async () => {
+    nock('https://dm.aliyuncs.com/')
+      .filteringPath(() => '/')
+      .get('/')
+      .reply(200, { EnvId: '58796843655', RequestId: 'E3883FB7-737F-4199-9C08-61CA586004BA' });
+    const aliMail = new AliMail('testAppId', 'testSecret', 40000);
+
+    const result = await aliMail.sendMail({
+      senderAddress: 'contact@do021.com',
+      senderName: '灵鹞软件',
+      toAddresses: ['ole3021@gmail.com'],
+      title: '联系邮件',
+      html: '<body>test</body>'
+    });
+
+    expect(result.EnvId).toEqual('58796843655');
+    expect(result.RequestId).toEqual('E3883FB7-737F-4199-9C08-61CA586004BA');
+  });
+
+  it('Should should not send mail when missing text and html', async () => {
+    nock('https://dm.aliyuncs.com/')
+      .filteringPath(() => '/')
+      .get('/')
+      .reply(200, { EnvId: '58796843655', RequestId: 'E3883FB7-737F-4199-9C08-61CA586004BA' });
+    try {
+      const aliMail = new AliMail('testAppId', 'testSecret', 40000);
+
+      const result = await aliMail.sendMail({
+        senderAddress: 'contact@do021.com',
+        senderName: '灵鹞软件',
+        toAddresses: ['ole3021@gmail.com'],
+        title: '联系邮件'
+      });
+    } catch (error) {
+      expect(error.type).toEqual('VALIDATION_FAILED');
+    }
   });
 
   it('Should can send email', async () => {
