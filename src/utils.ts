@@ -24,7 +24,7 @@ export const joiValidate = (name: string, data: any) => {
     throw new PardError(`Missing schema to validate code`, { type: 'VALIDATION_SCHEMA_MISSING' });
   }
 
-  const { error, value } = Joi.validate(data, SCHEMAS[name] as Joi.ObjectSchema);
+  const { error, value } = Joi.validate(data, SCHEMAS[name]);
   if (error) {
     throw new PardError('Validateion failed:' + error.message, { type: 'VALIDATION_FAILED' });
   }
