@@ -20,6 +20,11 @@ class SendMailConfig {
   content: string;
 }
 
+interface SendMailResponse {
+  EnvId: string;
+  RequestId: string;
+}
+
 export default class Notification {
   private emailTitle: string = '邮件通知 Email Notification';
   private aliMailTimeout: number = 3000;
@@ -36,7 +41,7 @@ export default class Notification {
     );
   }
 
-  async sendMail(options: SendMailConfig): Promise<void> {
+  async sendMail(options: SendMailConfig): Promise<SendMailResponse> {
     const sendOptions: any = {};
 
     if (containHtml(options.content)) {
@@ -49,7 +54,6 @@ export default class Notification {
 
     Object.assign(sendOptions, options);
 
-    await this.aliMail.sendMail(sendOptions);
-    return;
+    return this.aliMail.sendMail(sendOptions);
   }
 }

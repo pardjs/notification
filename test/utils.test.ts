@@ -1,5 +1,5 @@
 'use strict';
-import { PardError, containHtml } from '../src/utils';
+import { PardError, containHtml, joiValidate } from '../src/utils';
 
 describe('Util test', () => {
   it('PardError is instantiable', () => {
@@ -39,5 +39,13 @@ describe('Util test', () => {
 
     const isHtml = containHtml(textContent);
     expect(isHtml).toBeFalsy();
+  });
+
+  it('Should throw error when schema not exist', () => {
+    try {
+      joiValidate('NOT_EXIST', {});
+    } catch (error) {
+      expect(error).toBeTruthy();
+    }
   });
 });
