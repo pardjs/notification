@@ -3,8 +3,6 @@
 import * as Joi from 'joi';
 import SCHEMAS from '../constants/schemas';
 
-// const SCHEMAS: object = SCHEMAS_CONFIGS;
-
 export class PardError extends Error {
   constructor(message: string, meta?: object) {
     super(message);

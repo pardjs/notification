@@ -5,7 +5,7 @@ import * as crypto from 'crypto';
 import axios, { AxiosInstance } from 'axios';
 import { IsEmail, IsNotEmpty, IsString, ValidateIf, MaxLength } from 'class-validator';
 import * as qs from 'querystring';
-import * as md5 from 'md5';
+import md5 from 'md5';
 import { PardError, joiValidate } from './utils';
 
 interface MailOptions {
@@ -72,7 +72,7 @@ export default class AliMail {
     return aliEncodeString;
   };
 
-  signature = (options: Object): string => {
+  signature = (options: { [key: string]: any }): string => {
     const StringToSign = `GET&${this.fixAliEncode('/')}&${this.fixAliEncode(
       qs.stringify(options)
     )}`;
