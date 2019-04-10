@@ -1,9 +1,9 @@
 {
   "name": "@pardjs/notification",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "The description for the module",
   "keywords": [],
-  "main": "dist/notification.js",
+  "main": "dist/src/notification.js",
   "files": [
     "dist"
   ],
