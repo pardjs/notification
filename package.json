@@ -116,7 +116,6 @@
     "class-validator": "^0.9.1",
     "joi": "^14.3.1",
     "md5": "^2.2.1",
-    "querystring": "^0.2.0",
-    "typescript-param-validator": "^1.1.0"
+    "querystring": "^0.2.0"
   }
 }
