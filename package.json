@@ -3,8 +3,7 @@
   "version": "0.1.4",
   "description": "The description for the module",
   "keywords": [],
-  "main": "dist/notification.es5.js",
-  "typings": "dist/types/notification.d.ts",
+  "main": "dist/notification.js",
   "files": [
     "dist"
   ],
