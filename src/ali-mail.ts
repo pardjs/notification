@@ -3,7 +3,7 @@
 import * as crypto from 'crypto';
 
 import axios, { AxiosInstance } from 'axios';
-import { IsEmail, IsNotEmpty, IsString, ValidateIf, MaxLength } from 'class-validator';
+// import { IsEmail, IsNotEmpty, IsString, ValidateIf, MaxLength } from 'class-validator';
 import * as qs from 'querystring';
 import md5 from 'md5';
 import { PardError, joiValidate } from './utils';
